@@ -1,0 +1,35 @@
+const pressedButton = '[data-scheme][aria-pressed="true"]';
+
+const setScheme = (scheme) => {
+  const target = document.querySelector(`[data-scheme="${scheme}"]`);
+  document.documentElement.setAttribute('data-scheme', scheme);
+  document.querySelector(pressedButton).setAttribute('aria-pressed', 'false');
+  target.setAttribute('aria-pressed', 'true');
+};
+
+const handleSchemeSelection = (event) => {
+  const target = event.target;
+  const isPressed = target.getAttribute('aria-pressed');
+  const scheme = target.getAttribute('data-scheme');
+
+  if (isPressed !== 'true') {
+    setScheme(scheme);
+    localStorage.setItem('data-scheme', scheme);
+  }
+};
+
+const setInitialScheme = () => {
+  const savedScheme = localStorage.getItem('data-scheme');
+  if (savedScheme) {
+    setScheme(savedScheme);
+  }
+};
+
+setInitialScheme();
+
+const themePicker = document.querySelector(`[data-options="theme"]`);
+const schemeButtons = themePicker.querySelectorAll(`[data-scheme]`);
+
+schemeButtons.forEach((button) => {
+  button.addEventListener('click', handleSchemeSelection);
+});
