@@ -6,6 +6,18 @@
   initial-value: 100;
 }
 
+@property --base-color-light {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: oklch(43.7% 0.075 224);
+}
+
+@property --base-color-dark {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: oklch(89.2% 0.069 224);
+}
+
 
 [data-button] {
   align-items: center;
@@ -18,6 +30,7 @@
   font-weight: 600;
   justify-content: center;
   padding: 0.25em var(--gap);
+  transition: background 150ms ease-in;
 
   &:hover,
   &:focus {
@@ -227,7 +240,7 @@
     background-clip: text;
     color: transparent;
     margin-block-end: var(--heading-margin-block-end, 0.15lh);
-    animation: header-switch 5s linear infinite;
+    animation: header-hue-switch 5s ease-in-out infinite;
   }
 
   .summary {
@@ -261,7 +274,7 @@
 
   [data-layout="contact-form"] {
     background: var(--surface-light);
-    border: thin solid var(--border-color);
+    border: thin solid var(--border-highlight);
     padding: var(--gap);
   }
 
@@ -325,9 +338,17 @@
     --text-xlarge: clamp(1.7rem, 0.784rem + 4.58cqi, 4.219rem);
     --gap: clamp(2cqi, 0.5lh, 5cqi);
 
-    --base-color: light-dark(oklch(33.5% 0.133 259.73),
-      oklch(90.5% 0.046 259.73));
+    --base-color: light-dark(var(--base-color-light), var(--base-color-dark));
+    --accent-color: oklch(from var(--base-color) l c calc(h + 120));
+    --complement-color: oklch(from var(--base-color) l c calc(h + 180));
 
+    --action-color: oklch(from var(--base-color) calc(l * 0.85) c h); 
+    --highlight-color: oklch(from var(--base-color) l c calc(h - 120));
+    --active-color: light-dark(oklch(from var(--action-color) calc(l / 0.85) c h),
+          oklch(from var(--action-color) calc(l * 0.9) c h));
+
+    --background-color: light-dark(oklch(95.5% 0 162),
+          oklch(22.635% 0.01351 291.83));
     --surface-feature: light-dark(oklch(from var(--base-color) calc(l + 0.25) 0.202 h),
       oklch(from var(--base-color) 80% 0.202 h));
     --surface-light: color-mix(in oklab,
@@ -335,14 +356,8 @@
       var(--base-color));
 
     --text-color: canvasText;
-    --background-color: light-dark(oklch(95.5% 0 162),
-      oklch(22.635% 0.01351 291.83));
-    --border-color: color-mix(in oklab, var(--base-color), grey);
-    --accent-color: oklch(from var(--base-color) l c calc(h - 120));
-    --action-color: oklch(from var(--base-color) l c calc(h + 180));
-    --active-color: light-dark(oklch(from var(--action-color) calc(l / 0.85) c h),
-      oklch(from var(--action-color) calc(l * 0.9) c h));
-    --highlight-color: oklch(from var(--base-color) l c calc(h + 60));
+    --border-color: color-mix(in oklab, var(--base-color), grey);;
+    --border-highlight: var(--complement-color);
 
     --serif-font: "Nimbus Mono PS", "Courier New", monospace;
     --sans-serif-font: Bahnschrift, "DIN Alternate", "Franklin Gothic Medium", "Nimbus Sans Narrow", 
@@ -387,7 +402,7 @@
     }
   }
 
-  @keyframes header-switch {
+  @keyframes header-hue-switch {
     from {
       --header-hue: 26.67;
     }
