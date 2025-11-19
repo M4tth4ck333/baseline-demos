@@ -107,7 +107,7 @@
 }
 
 [data-playlist-item~="blue"] {
-  --song-color: var(--base-color);
+  --song-color: oklch(0.476 0.275 264.05);
 }
 
 [data-playlist-item~="purple"] {
@@ -239,7 +239,7 @@
     background-clip: text;
     color: transparent;
     margin-block-end: var(--heading-margin-block-end, 0.15lh);
-    animation: header-hue-switch 5s ease-in-out infinite;
+    animation: header-hue-switch 5s ease-in-out infinite alternate;
   }
 
   .summary {
@@ -343,7 +343,7 @@
 
     --action-color: oklch(from var(--base-color) calc(l * 0.85) c h); 
     --highlight-color: oklch(from var(--base-color) l c calc(h - 120));
-    --active-color: light-dark(oklch(from var(--action-color) calc(l / 0.85) c h),
+    --active-color: light-dark(oklch(from var(--action-color) calc(l * 1.15) c h),
           oklch(from var(--action-color) calc(l * 0.9) c h));
 
     --background-color: light-dark(oklch(95.5% 0 162),
