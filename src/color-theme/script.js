@@ -1,58 +1,46 @@
+const storageKey = "data-scheme";
 const pressedButton = '[data-scheme][aria-pressed="true"]';
-const storageKey = 'theme-preference';
 
 const getColorPreference = () => {
-  if (localStorage.getItem(storageKey)) return localStorage.getItem(storageKey);
+  const storedScheme = localStorage.getItem(storageKey);
+  if (storedScheme) return storedScheme;
   else
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-};
-
-const setInitialScheme = () => {
-  const savedScheme = localStorage.getItem('data-scheme');
-  if (savedScheme) {
-    setScheme(savedScheme);
-  } else {
-    getColorPreference();
-    setScheme(theme.value);
-  }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
 };
 
 const setScheme = (scheme) => {
+  // Switch to the new scheme
+  document.documentElement.setAttribute("data-scheme", scheme);
+  // Remove aria-pressed from the previously selected button
+  document.querySelector(pressedButton)?.setAttribute("aria-pressed", "false");
+  // Set aria-pressed on the newly selected button
   const target = document.querySelector(
     `[data-button][data-scheme="${scheme}"]`
   );
-  document.documentElement.setAttribute('data-scheme', scheme);
-
-  document.querySelector(pressedButton)?.setAttribute('aria-pressed', 'false');
-  target?.setAttribute('aria-pressed', 'true');
+  target?.setAttribute("aria-pressed", "true");
+  // Persist to localStorage
+  localStorage.setItem(storageKey, scheme);
 };
-
-const theme = {
-  value: getColorPreference(),
-};
-
-setInitialScheme();
 
 const handleSchemeSelection = (event) => {
-  const target = event.target;
-  const isPressed = target.getAttribute('aria-pressed');
-  const scheme = target.getAttribute('data-scheme');
-
-  if (isPressed !== 'true') {
+  const target = event.currentTarget;
+  const isPressed = target.getAttribute("aria-pressed");
+  const scheme = target.getAttribute("data-scheme");
+  if (isPressed !== "true" && scheme) {
     setScheme(scheme);
-    localStorage.setItem('data-scheme', scheme);
   }
 };
 
 window.onload = () => {
-  setInitialScheme();
+  const colorPreference = getColorPreference();
+  setScheme(colorPreference);
 
   const themePicker = document.querySelector(`[data-options="theme"]`);
-  const schemeButtons = themePicker.querySelectorAll(`[data-scheme]`);
+  const schemeButtons = themePicker?.querySelectorAll(`[data-scheme]`);
 
-  schemeButtons.forEach((button) => {
-    button.addEventListener('click', handleSchemeSelection);
+  schemeButtons?.forEach((button) => {
+    button.addEventListener("click", handleSchemeSelection);
   });
 };
