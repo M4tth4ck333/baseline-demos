@@ -9,15 +9,13 @@ const getColorPreference = () => {
       : 'light';
 };
 
-const setPreference = () => {
-  localStorage.setItem(storageKey, theme.value);
-  setScheme();
-};
-
 const setInitialScheme = () => {
   const savedScheme = localStorage.getItem('data-scheme');
   if (savedScheme) {
     setScheme(savedScheme);
+  } else {
+    getColorPreference();
+    setScheme(theme.value);
   }
 };
 
@@ -29,6 +27,10 @@ const setScheme = (scheme) => {
 
   document.querySelector(pressedButton)?.setAttribute('aria-pressed', 'false');
   target?.setAttribute('aria-pressed', 'true');
+};
+
+const theme = {
+  value: getColorPreference(),
 };
 
 setInitialScheme();
