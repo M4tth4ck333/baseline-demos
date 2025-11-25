@@ -349,6 +349,12 @@
       color-scheme: dark;
     }
 
+    &[data-scheme="green"] {
+      --base-color-light: oklch(48.052% 0.11875 151.945);
+      --base-color-dark: oklch(92.124% 0.13356 151.558);
+      color-scheme: light dark;
+    }
+
     accent-color: var(--accent-color);
     interpolate-size: allow-keywords;
 
