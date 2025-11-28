@@ -168,7 +168,7 @@
       &:hover,
       &:focus {
         --btn-bg: var(--active-color);
-        --btn-border: var(--border-color);
+        --btn-border: var(--accent-color);
       }
   
       &[aria-pressed="true"] {
@@ -375,7 +375,7 @@
     
     --base-mix-grey-50: color-mix(in oklab, var(--base-color), grey);
     --background-mix-base-80: color-mix(in oklab,
-      var(--background-color) 80%,
+      var(--background-color) 90%,
       var(--base-color));
 
     --triadic-color-primary: oklch(from var(--base-color) l c calc(h + 120));
