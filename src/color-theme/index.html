@@ -12,8 +12,8 @@
 
 <body>
   <header class="page-header">
-    <nav>
-      <ul class="nav-list">
+    <nav data-nav="site">
+      <ul data-navlist="site">
         <li> <a href="#"> playlists </a> </li>
         <li> <a href="#"> features </a> </li>
         <li><a href="#"> about </a> </li>
@@ -146,8 +146,24 @@
         </div>
       </form>
     </aside>
-    <footer role="contentinfo">
-      <p>Baseline Radio footer information</p>
+    <footer role="contentinfo" class="main-footer">
+      <nav data-nav="footer">
+        <ul data-navlist="footer">
+          <li>
+            <a href="#">Contact Us</a>
+          </li>
+          <li>
+            <a href="#">Help</a>
+          </li>
+          <li>
+            <a href="#">Host a Show</a>
+          </li>
+          <li>
+            <a href="#">Archives</a>
+          </li>
+        </ul>
+      </nav>
+      <p class="legal">&#169; 2025 Baseline Radio </p>
     </footer>
   </div>
 </body>

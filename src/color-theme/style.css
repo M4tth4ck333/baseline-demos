@@ -18,6 +18,64 @@
   initial-value: oklch(89.2% 0.069 224);
 }
 
+@layer theme {
+  html {
+    /* colors */
+    --base-color: light-dark(var(--base-color-light), var(--base-color-dark));
+    --base-color-darkened: oklch(from var(--base-color) calc(l * 0.85) c h);
+    --base-color-bright-light: oklch(from var(--base-color) calc(l + 0.25) 0.202 h);
+    --base-color-bright-dark: oklch(from var(--base-color) 80% 0.202 h);
+
+    --base-mix-grey-50: color-mix(in oklab, var(--base-color), grey);
+    --background-mix-base-80: color-mix(in oklab,
+        var(--background-color) 90%,
+        var(--base-color));
+
+    --triadic-color-primary: oklch(from var(--base-color) l c calc(h + 120));
+    --triadic-color-secondary: oklch(from var(--base-color) l c calc(h - 120));
+
+    --complement-color: oklch(from var(--base-color) l c calc(h + 180));
+
+
+    --action-color: var(--base-color-darkened);
+    --action-color-light: oklch(from var(--action-color) calc(l * 1.15) c h);
+    --action-color-dark: oklch(from var(--action-color) calc(l * 0.9) c h);
+
+    --accent-color: var(--triadic-color-primary);
+    --highlight-color: var(--triadic-color-secondary);
+    --active-color: light-dark(var(--action-color-light),
+        var(--action-color-dark));
+
+    --background-color: light-dark(oklch(95.5% 0 162),
+        oklch(22.635% 0.01351 291.83));
+    --surface-feature: light-dark(var(--base-color-bright-light),
+        var(--base-color-bright-dark));
+    --surface-light: var(--background-mix-base-80);
+
+    --text-color: canvasText;
+    --border-color: var(--base-mix-grey-50);
+    --border-color-bright: oklch(from var(--border-color) l calc(c + 0.1) h);
+    --border-highlight: var(--complement-color);
+
+    color-scheme: light dark;
+    accent-color: var(--accent-color);
+
+    &[data-scheme="light"] {
+      color-scheme: light;
+    }
+
+    &[data-scheme="dark"] {
+      color-scheme: dark;
+    }
+
+    &[data-scheme="green"] {
+      --base-color-light: oklch(48.052% 0.11875 151.945);
+      --base-color-dark: oklch(92.124% 0.13356 151.558);
+
+      color-scheme: light dark;
+    }
+  }
+}
 
 
 
@@ -113,7 +171,7 @@
     grid-template:
       "header" auto
       "main" 1fr
-      "footer" auto;
+      "footer" auto / minmax(min-content, 1fr);
   }
 
   .page-header {
@@ -130,52 +188,67 @@
     }
   }
 
-  nav {
-    display: flex;
+  [data-nav] {
+    display: var(--nav-display, block);
     align-items: center;
   }
 
-  .nav-list {
+  [data-nav~="footer"] {
     align-items: center;
+
+    @container (width > 30em) {
+      --navlist-direction: column;
+    }
+  }
+
+  [data-navlist] {
+    align-items: var(--navlist-align);
     display: flex;
+    flex-direction: var(--navlist-direction);
     flex-wrap: wrap;
     font-family: var(--sans-serif-font);
     gap: var(--gap);
+    justify-content: var(--nav-justify);
     margin-block-end: 0;
+  }
+
+  [data-navlist~="site"] {
+    --navlist-align: center;
 
     @container header (width > 20em) {
-      justify-content: end;
+      --nav-justify: end;
     }
 
     a {
       padding: calc(var(--gap) / 2);
     }
+
   }
 
-    [data-button] {
-      align-items: center;
-      background: var(--btn-bg, var(--action-color));
-      border: medium solid var(--btn-border, transparent);
-      color: var(--btn-text, var(--background-color));
-      cursor: pointer;
-      display: inline-flex;
-      font-size: inherit;
-      font-weight: 600;
-      justify-content: center;
-      padding: var(--btn-padding, 0.25em var(--gap));
-      transition: background var(--transition-timing-fast) ease-in;
-  
-      &:hover,
-      &:focus {
-        --btn-bg: var(--active-color);
-        --btn-border: var(--accent-color);
-      }
-  
-      &[aria-pressed="true"] {
-        --btn-bg: var(--highlight-color);
-        --btn-border: var(--border-color-bright);
-      }
+  [data-button] {
+    align-items: center;
+    background: var(--btn-bg, var(--action-color));
+    border: medium solid var(--btn-border, transparent);
+    color: var(--btn-text, var(--background-color));
+    cursor: pointer;
+    display: inline-flex;
+    font-size: inherit;
+    font-weight: 600;
+    justify-content: center;
+    padding: var(--btn-padding, 0.25em var(--gap));
+    transition: background var(--transition-timing-fast) ease-in;
+
+    &:hover,
+    &:focus {
+      --btn-bg: var(--active-color);
+      --btn-border: var(--accent-color);
     }
+
+    &[aria-pressed="true"] {
+      --btn-bg: var(--highlight-color);
+      --btn-border: var(--border-color-bright);
+    }
+  }
 
   details {
     border: 1px solid var(--border-highlight);
@@ -186,9 +259,9 @@
     &::details-content {
       opacity: var(--show-details, 0);
       block-size: var(--details-block, 0);
-      transition: 
-        content-visibility var(--transition-timing-slow) allow-discrete, 
-        opacity var(--transition-timing-slow), 
+      transition:
+        content-visibility var(--transition-timing-slow) allow-discrete,
+        opacity var(--transition-timing-slow),
         block-size var(--transition-timing-slow) ease-in;
     }
 
@@ -278,7 +351,7 @@
   [data-layout="footer"] {
     display: grid;
     font-family: var(--sans-serif-font);
-    font-size: var(--text-small);
+    gap: calc(var(--gap) * 2);
     grid-area: footer;
     grid-template:
       "contact" 1fr
@@ -287,14 +360,15 @@
 
     @container (width > 30em) {
       grid-template:
-        "contact ." 1fr
-        "footer footer" auto / 1fr 1fr;
+        "contact footer" auto
+        / 1fr 1fr;
     }
   }
 
   [data-layout="contact-form"] {
     background: var(--surface-light);
     border: thin solid var(--border-highlight);
+    font-size: var(--text-small);
     padding: var(--gap);
   }
 
@@ -332,30 +406,24 @@
     }
   }
 
-  footer {
+  .main-footer {
+    align-items: center;
+    display: grid;
     grid-area: footer;
+
+    @container (width > 30em) {
+      text-align: end;
+
+      .legal {
+        align-self: end;
+        margin: 0;
+      }
+    }
   }
 }
 
 @layer theme {
   html {
-    color-scheme: light dark;
-
-    &[data-scheme="light"] {
-      color-scheme: light;
-    }
-
-    &[data-scheme="dark"] {
-      color-scheme: dark;
-    }
-
-    &[data-scheme="green"] {
-      --base-color-light: oklch(48.052% 0.11875 151.945);
-      --base-color-dark: oklch(92.124% 0.13356 151.558);
-      color-scheme: light dark;
-    }
-
-    accent-color: var(--accent-color);
     interpolate-size: allow-keywords;
 
     /* sizing */
@@ -366,47 +434,9 @@
     --text-xlarge: clamp(1.7rem, 0.784rem + 4.58cqi, 4.219rem);
     --gap: clamp(2cqi, 0.5lh, 5cqi);
 
-    /* colors */
-
-    --base-color: light-dark(var(--base-color-light), var(--base-color-dark));
-    --base-color-darkened: oklch(from var(--base-color) calc(l * 0.85) c h);
-    --base-color-bright-light: oklch(from var(--base-color) calc(l + 0.25) 0.202 h);
-    --base-color-bright-dark: oklch(from var(--base-color) 80% 0.202 h);
-    
-    --base-mix-grey-50: color-mix(in oklab, var(--base-color), grey);
-    --background-mix-base-80: color-mix(in oklab,
-      var(--background-color) 90%,
-      var(--base-color));
-
-    --triadic-color-primary: oklch(from var(--base-color) l c calc(h + 120));
-    --triadic-color-secondary: oklch(from var(--base-color) l c calc(h - 120));
-   
-    --complement-color: oklch(from var(--base-color) l c calc(h + 180));
-  
-
-    --action-color: var(--base-color-darkened); 
-    --action-color-light: oklch(from var(--action-color) calc(l * 1.15) c h);
-    --action-color-dark: oklch(from var(--action-color) calc(l * 0.9) c h);
-
-    --accent-color: var(--triadic-color-primary);
-    --highlight-color: var(--triadic-color-secondary);
-    --active-color: light-dark(var(--action-color-light),
-          var(--action-color-dark));
-
-    --background-color: light-dark(oklch(95.5% 0 162),
-          oklch(22.635% 0.01351 291.83));
-    --surface-feature: light-dark(var(--base-color-bright-light),
-      var(--base-color-bright-dark));
-    --surface-light: var(--background-mix-base-80);
-
-    --text-color: canvasText;
-    --border-color: var(--base-mix-grey-50);
-    --border-color-bright: oklch(from var(--border-color) l calc(c + 0.1) h);
-    --border-highlight: var(--complement-color);
-
-    /* Fonts, via https: //modernfontstacks.com/ */
+    /* Fonts, via https://modernfontstacks.com/ */
     --serif-font: "Nimbus Mono PS", "Courier New", monospace;
-    --sans-serif-font: Bahnschrift, "DIN Alternate", "Franklin Gothic Medium", "Nimbus Sans Narrow", 
+    --sans-serif-font: Bahnschrift, "DIN Alternate", "Franklin Gothic Medium", "Nimbus Sans Narrow",
       sans-serif-condensed, sans-serif;
 
     /* timing */
