@@ -189,11 +189,11 @@
   }
 
   [data-nav] {
-    display: var(--nav-display, block);
     align-items: center;
   }
 
   [data-nav~="footer"] {
+    --nav-justify: end;
     align-items: center;
 
     @container (width > 30em) {
@@ -360,7 +360,7 @@
 
     @container (width > 30em) {
       grid-template:
-        "contact footer" auto
+        "contact footer" min-content
         / 1fr 1fr;
     }
   }
@@ -407,17 +407,18 @@
   }
 
   .main-footer {
-    align-items: center;
     display: grid;
+    gap: var(--gap);
     grid-area: footer;
 
     @container (width > 30em) {
       text-align: end;
+    }
 
-      .legal {
-        align-self: end;
-        margin: 0;
-      }
+    .legal {
+      font-size: var(--text-small);
+      margin: 0;
+      place-self: end;
     }
   }
 }
