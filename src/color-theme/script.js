@@ -38,6 +38,8 @@ const colorPreference = getColorPreference();
 setScheme(colorPreference);
 
 window.onload = () => {
+  setScheme(colorPreference);
+  
   const themePicker = document.querySelector(`[data-options="theme"]`);
   const schemeButtons = themePicker?.querySelectorAll(`[data-scheme]`);
 
