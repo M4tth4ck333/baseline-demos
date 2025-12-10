@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark" />
+  <title>Baseline Color Theme Demo</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js"></script>
+</head>
+
+<body>
+  <header class="page-header">
+    <nav data-nav="site">
+      <ul data-navlist="site">
+        <li> <a href="#"> playlists </a> </li>
+        <li> <a href="#"> features </a> </li>
+        <li> <a href="#"> about </a> </li>
+      </ul>
+    </nav>
+    <details>
+      <summary data-button="summary">Light/Dark</summary>
+      <div id="theme-picker" class="dropdown">
+        <fieldset>
+          <legend>Color Scheme</legend>
+          <div data-options="theme">
+            <button data-button="" data-scheme="light" aria-pressed="false">Light</button>
+            <button data-button="" data-scheme="dark" aria-pressed="false">Dark</button>
+            <button data-button="" data-scheme="auto" aria-pressed="true">Auto</button>
+            <button data-button="" data-scheme="green" aria-pressed="false">Green</button>
+          </div>
+        </fieldset>
+      </div>
+    </details>
+  </header>
+  <main aria-labelledby="title">
+    <header class="content-header">
+      <h1 class="main-heading"> Baseline Radio</h1>
+      <p class="summary">the color theme <code>color-mix</code> playlist</p>
+    </header>
+    <ul class="playlist">
+      <li data-playlist-item="red">
+        <p data-song="">The Red Bus (Sequence 2)</p> <span class="top-pick"> top pick</span>
+        <p class="artist">Armando Trovajoli</p>
+      </li>
+      <li data-playlist-item="red">
+        <p data-song="">The Search for Cherry Red</p>
+        <p class="artist">The Kills</p>
+      </li>
+      <li data-playlist-item="red">
+        <p data-song="">Cherry Red</p> <span class="top-pick"> top pick</span>
+
+        <p class="artist">Ty Segall</p>
+      </li>
+      <li data-playlist-item="yellow">
+        <p data-song="yellow">Yellow Days</p>
+        <p class="artist">Cal Tjader &amp; Eddie Palmieri</p>
+      </li>
+      <li data-playlist-item="orange">
+        <p data-song="orange">Orange and Tan</p>
+        <p class="artist">James Devane</p>
+      </li>
+      <li data-playlist-item="green">
+        <p data-song="green">Green Eyes </p>
+        <span class="top-pick"> top pick</span>
+        <p class="artist">Eli Escobar </p>
+      </li>
+      <li data-playlist-item="green">
+        <p data-song="green">Green for Go</p>
+        <p class="artist">100% Manmade Fibre </p>
+      </li>
+      <li data-playlist-item="indigo">
+        <p data-song="indigo">music for indigo</p>
+        <p class="artist">Adrianne Lenker</p>
+      </li>
+      <li data-playlist-item="blue">
+        <p data-song="blue">Myopic Blue Heaven</p>
+        <span class="top-pick"> top pick</span>
+        <p class="artist">Lars Finberg</p>
+      </li>
+      <li data-playlist-item="blue">
+        <p data-song="blue">Blue Pillow</p>
+        <p class="artist">Stark Reality</p>
+      </li>
+      <li data-playlist-item="purple">
+        <p data-song="purple highlight">My Purple Past</p>
+        <span class="top-pick"> top pick</span>
+        <p class="artist">Deerhoof</p>
+      </li>
+      <li data-playlist-item="purple">
+        <p data-song="purple">Angry Purple Birds</p>
+        <p class="artist">Theo Parrish</p>
+      </li>
+      <li data-playlist-item="black">
+        <p data-song="black">4 Blacks </p> <span class="top-pick"> top pick</span>
+        <p class="artist">Black Milk &amp; Nat Turner</p>
+      </li>
+      <li data-playlist-item="black">
+        <p data-song="black">Black Satin</p>
+        <p class="artist">Miles Davis</p>
+      </li>
+      <li data-playlist-item="pink">
+        <p data-song="pink">Pink + White</p>
+        <p class="artist">Frank Ocean</p>
+      </li>
+      <li data-playlist-item="pink">
+        <p data-song="pink">Pink Section</p>
+        <p class="artist">Thom Yorke</p>
+      </li>
+      <li data-playlist-item="white">
+        <p data-song="white highlight">By the Light of His White Stetson </p>
+        <span class="top-pick"> top pick</span>
+        <p class="artist">GracieHorse</p>
+      </li>
+      <li data-playlist-item="white">
+        <p data-song="white">My White Bicycle</p>
+        <p class="artist">Tomorrow</p>
+      </li>
+    </ul>
+
+  </main>
+
+  <div data-layout="footer">
+    <aside data-layout="contact-form">
+      <div>
+        <h2>Want to request a song? Have an idea for a playlist?</h2>
+        <p>Send us a message by filling out our contact form.</p>
+      </div>
+      <form data-form="">
+        <div class="field-group">
+          <div data-field="">
+            <label for="name">Name</label>
+            <input id="name" type="text" data-input="text" name="name" required="">
+          </div>
+          <div data-field="">
+            <label for="email">Email</label>
+            <input id="email" data-input="text email" type="email" name="email" required="">
+          </div>
+        </div>
+        <div data-field="">
+          <label for="message">Message</label>
+          <textarea id="message" type="textarea" data-input="text" required="" name="message"></textarea>
+        </div>
+        <div class="form-action">
+          <button data-button="">Send</button>
+        </div>
+      </form>
+    </aside>
+    <footer role="contentinfo" class="main-footer">
+      <nav data-nav="footer">
+        <ul data-navlist="footer">
+          <li>
+            <a href="#">Contact Us</a>
+          </li>
+          <li>
+            <a href="#">Help</a>
+          </li>
+          <li>
+            <a href="#">Host a Show</a>
+          </li>
+          <li>
+            <a href="#">Archives</a>
+          </li>
+        </ul>
+      </nav>
+      <p class="legal">&#169; 2025 Baseline Radio </p>
+    </footer>
+  </div>
+</body>
+</html>
