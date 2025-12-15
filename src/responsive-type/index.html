@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baseline Responsive Type Demo</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main>
+    <h1>Viewport changes don’t always mean the same thing</h1>
+    <footer class="by-line">
+      <p>A demo by <strong>Miriam Suzanne</strong></p>
+      <time datetime="2025-12-15" pubdate>December 15, 2025</time>
+    </footer>
+
+    <p>
+      One action (zooming) changes the size of a pixel, while the other
+      (resizing) changes the size of the browser itself – but
+      <em>both change the number of pixels</em>
+      across the width of the browser. As the window gets smaller, or the
+      pixel gets larger – there are fewer pixels in the viewport.
+    </p>
+
+    <p>
+      That disconnect makes responsive typography unreliable. If your text is
+      set to resize based only on a viewport or container, then the user zoom
+      will have no effect! Similarly, neither <code>1vw</code> nor
+      <code>100vw</code>
+      accounts for the user default font-size.
+    </p>
+
+    <h2>Ensuring font-sizes are responsive to zoom</h2>
+
+    <p>
+      To ensure that a viewport-relative font-size is responsive to zoom, the
+      <code>vw</code> value has to be combined with another value using the
+      <code>calc()</code> function. But this is only a partial fix. On small
+      screens, the font-size will come primarily from the base pixel value,
+      and will respond well to zoom. But on larger screens, the
+      viewport-sizing becomes a larger fraction of the rendered font size,
+      making zoom less effective.
+    </p>
+
+    <figure type-container>
+      <img src="https://assets.codepen.io/15542/Screenshot+2025-12-05+at+10.09.15%E2%80%AFAM.jpg" alt="
+					 A graph from 0 to 2600 on the x axis, and 0 to 600 on the y axis.
+					 There's a solid line labeled font-size,
+					 starting at (0,17) and growing in a straight line to (2600,82).
+					 A dashed line is labeled 500%,
+					 starting at (0,500)
+           and swooping down in a curve,
+           so it falls below 200 before the right edge.
+					" />
+      <figcaption type-set="small">
+        The horizontal axis represents viewport size,
+        from <code>0</code> to <code>2600px</code> wide.
+        The vertical axis for font-size is also in pixels,
+        showing the result of <code>calc(17px + 2.5vw)</code>.
+        The <code>500%</code> zoom line
+        uses the same viewport-width horizontal axis,
+        but treats the vertical axis as a percentage.
+      </figcaption>
+    </figure>
+
+    <p>
+      At the left edge of the graph (<code>0</code> viewport width),
+      <code>500%</code> zoom is fully effective.
+      But that effectiveness drops away quickly as the browser size increases,
+      and (unzoomable) viewport units become a larger factor in the font-size.
+      When the browser is <code>2040px</code> wide,
+      the maximum <code>500%</code> zoom is only able to achieve
+      a <code>200%</code> increase in font-size.
+      Beyond that point, <code>200%</code> effective font-zoom
+      is no longer possible.
+    </p>
+
+    <p>
+      By moving this calculation into a <code>clamp()</code> function, with
+      min and max values, you can enforce boundaries that ensure zoomable
+      text.
+    </p>
+
+    <h2>Ensuring font-sizes are responsive to user defaults</h2>
+
+    <p>
+      But <code>clamp(18px, 17px + 1vw, 20px)</code> is still not responsive
+      to user default font settings. To achieve that, you need to set the base
+      – or min and max values – using <code>em</code> or
+      <code>rem</code> units:
+    </p>
+
+    <pre><code>html {
+ font-size: clamp(1em, 17px + 0.24vw, 1.125em);
+}</code></pre>
+
+    <p>Note that:</p>
+    <ul>
+      <li>
+        The minimum and maximum both use <code>em</code> units, which are
+        based on the user preference (and responsive to zoom)
+      </li>
+      <li>
+        The additional <code>vw</code> value is kept minimal, so that zoom
+        isn’t too heavily impacted
+      </li>
+      <li>
+        The maximum size (<code>1.125em</code>) is well under 2.5 times the
+        minimum (<code>1em</code>), ensuring that <code>200%</code> font-size
+        is always achievable
+      </li>
+    </ul>
+    <p>
+      Read the full article on
+      <a href="#">web.dev</a>
+      and explore the
+      <a href="https://www.desmos.com/calculator/xruperkze1">
+        interactive font/zoom graph</a>.
+    </p>
+    <hr />
+  </main>
+
+  <aside id="articles">
+    <h2>More articles by Miriam</h2>
+
+    <article-grid>
+      <grid-item type-container>
+        <article type-set>
+          <h3>
+            <a href="https://web.dev/articles/baseline-in-action-container-queries">Container queries and units in
+              action</a>
+          </h3>
+          <time>October 23, 2025</time>
+        </article>
+      </grid-item>
+
+      <grid-item type-container>
+        <article type-set>
+          <h3>
+            <a href="https://www.oddbird.net/2025/09/23/type-units/">The Best CSS Unit Might Be a Combination</a>
+          </h3>
+          <time>September 23, 2025</time>
+        </article>
+      </grid-item>
+
+      <grid-item type-container>
+        <article type-set>
+          <h3>
+            <a href="https://www.oddbird.net/2025/08/26/type-visual/">Visualizing Responsive Typography</a>
+          </h3>
+          <time>August 26, 2025</time>
+        </article>
+      </grid-item>
+
+      <grid-item type-container>
+        <article type-set>
+          <h3>
+            <a href="https://www.oddbird.net/2025/07/22/size-preferences/">Designing for User Font-size and Zoom</a>
+          </h3>
+          <time>July 22, 2025</time>
+        </article>
+      </grid-item>
+    </article-grid>
+  </aside>
+</body>
+
+</html>
